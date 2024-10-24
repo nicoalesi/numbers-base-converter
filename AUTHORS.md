@@ -1,7 +1,7 @@
 # Authors
 
 **This project has been designed and developed by some
-undergraduates entrolled in the ACSAI course held by
+undergraduates enrolled in the ACSAI course held by
 Sapienza university.**
 
 ## Team
