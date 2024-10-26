@@ -557,6 +557,8 @@ def convert():
             
         if result != None:
             print("Result:", result)
+    except ValueError:
+        print("Number not compatible.")
     except PrecisionError:
         print("Precision not supported.")
     except OverflowError:
