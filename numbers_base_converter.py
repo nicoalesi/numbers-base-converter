@@ -291,6 +291,31 @@ def get_from_IEEE754_inputs():
         raise ExponentError
 
 
+def normalize_IEEE754_result(sign, exponent, mantissa, exp_length, mant_length, bias):
+    exponent = bin(exponent + bias)[2:]
+
+    if len(exponent) < exp_length:
+        exponent = '0'*(exp_length-len(exponent)) + exponent
+    
+    if len(mantissa) < mant_length:
+        mantissa = '0'*(mant_length-len(mantissa)) + mantissa
+
+    return sign + " | " + exponent + " | " + mantissa
+
+
+def round_IEEE754_mantissa(exponent, mantissa, length):
+
+    if mantissa == '1' * (length+1):
+        exponent += 1
+        mantissa = '0' * length
+        return exponent, mantissa
+    
+    if mantissa[-1] == '1':
+        mantissa = bin(int(mantissa, 2) + 1)[2:]
+    
+    return exponent, mantissa[:-1]
+
+
 def convert_decimal_to_IEEE754(precision, number) -> str:
     # Define useful variables
     match precision:
@@ -338,52 +363,45 @@ def convert_decimal_to_IEEE754(precision, number) -> str:
 
     integer_part = bin(int(parts[0]))[2:]
     fractional_part = convert_fractional_part_from_decimal(parts[1], 2, bias*2)
-
-    if integer_part == '0' \
-          and'1' not in fractional_part:
-        raise UnderflowError
-
-    if integer_part == '0':
-        exponent = -(fractional_part.index('1') + 1)
-    else:
-        exponent = len(integer_part) - 1
-    
-    mantissa = integer_part[1:] + fractional_part
+    mantissa = integer_part + fractional_part
 
     higher_bound = bias
     lower_bound = -bias + 1
     lower_denormal_bound = -bias + 1 - mant_digits
 
+    if integer_part == '0':
+        if '1' not in fractional_part:
+            raise UnderflowError
+        
+        exponent = -(mantissa.index('1'))
+
+        if exponent < lower_bound:
+            if exponent < lower_denormal_bound:
+                raise UnderflowError
+            
+            start = bias
+            mantissa = mantissa[start:start+mant_digits+1]
+            exponent = -bias
+
+            exponent, mantissa = round_IEEE754_mantissa(exponent, mantissa, mant_digits)
+            return normalize_IEEE754_result(sign, exponent, mantissa, exp_digits, mant_digits, bias)
+        
+        start = mantissa.index('1') + 1
+        mantissa = mantissa[start:start+mant_digits+1]
+        
+        exponent, mantissa = round_IEEE754_mantissa(exponent, mantissa, mant_digits)
+        return normalize_IEEE754_result(sign, exponent, mantissa, exp_digits, mant_digits, bias)
+
+    exponent = len(integer_part) - 1
+    start = 1
+    mantissa = mantissa[start:start+mant_digits+1]
+
+    exponent, mantissa = round_IEEE754_mantissa(exponent, mantissa, mant_digits)
+
     if exponent > higher_bound:
         raise OverflowError
 
-    if exponent < lower_bound:
-        if exponent < lower_denormal_bound:
-            raise UnderflowError
-        else:
-            space = -exponent - bias
-            exponent = lower_bound - 1
-            mantissa = '0' * space + mantissa[(-lower_bound + space):-lower_bound+mant_digits+1]
-        
-    if len(mantissa) > mant_digits:
-        if mantissa[mant_digits] == '1':
-            if mantissa[:mant_digits] == ('1' * mant_digits):
-                exponent += 1
-                mantissa = '0' * mant_digits
-            else:
-                mantissa = bin(int(mantissa[:mant_digits], 2) + 1)[2:]
-        else:
-            mantissa = mantissa[:mant_digits]
-            
-    exponent = bin(exponent + bias)[2:]
-
-    if len(exponent) < exp_digits:
-        exponent = '0'*(exp_digits-len(exponent)) + exponent
-    
-    if len(mantissa) < mant_digits:
-        mantissa = '0'*(mant_digits-len(mantissa)) + mantissa
-
-    return sign + " | " + exponent + " | " + mantissa
+    return normalize_IEEE754_result(sign, exponent, mantissa, exp_digits, mant_digits, bias)
 
 
 def convert_IEEE754_to_decimal(number):
@@ -400,6 +418,9 @@ def print_to_IEEE754_information():
     print("|   - half                             (Half precision: 1-5-10)  |")
     print("|   - single                         (Single precision: 1-8-23)  |")
     print("|   - double                        (Double precision: 1-11-52)  |")
+    print("|                                                                |")
+    print("|  Note: only the following special values are allowed:          |")
+    print("|    '+infinity', '-infinity', '0', 'NaN'                        |")
     print("|                                                                |")
     print("+----------------------------------------------------------------+")
 
@@ -538,6 +559,8 @@ def convert():
             print("Result:", result)
     except PrecisionError:
         print("Precision not supported.")
+    except OverflowError:
+        print("Overflow error.")
     except UnderflowError:
         print("Underflow error.")
 
