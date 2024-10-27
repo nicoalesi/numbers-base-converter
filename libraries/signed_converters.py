@@ -1,8 +1,8 @@
 # This file contains all the converter functions for signed numbers used by
 # the main program.
 
-from libraries.unsigned_converters import convert_decimal_to_binary
 from libraries.unsigned_converters import convert_binary_to_decimal
+from libraries.unsigned_converters import convert_decimal_to_binary
 
 
 # This list defines all the exportable functions to other files.
