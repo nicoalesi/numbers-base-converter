@@ -1,7 +1,7 @@
 # This file contains all the printer functions used for displaying messages by
 # the main program.
 
-# Print information related to decimal-to-IEEE754 converter.
+# This function prints information related to decimal-to-IEEE754 converter.
 def print_to_IEEE754_information() -> None:
     print()
 
@@ -19,7 +19,7 @@ def print_to_IEEE754_information() -> None:
     print("+----------------------------------------------------------------+")
 
 
-# Print information related to IEEE754-to-decimal converter.
+# This function prints information related to IEEE754-to-decimal converter.
 def print_from_IEEE754_information() -> None:
     print()
 
@@ -33,7 +33,7 @@ def print_from_IEEE754_information() -> None:
     print("+----------------------------------------------------------------+")
 
 
-# Print information about the project.
+# This function prints information about the project.
 def print_information() -> None:
     print()
 
@@ -50,7 +50,7 @@ def print_information() -> None:
     print("+----------------------------------------------------------------+")
 
 
-# Print all available modes.
+# This function prints all available modes.
 def print_instructions() -> None:
     print()
 
@@ -80,7 +80,7 @@ def print_instructions() -> None:
     print("+----------------------------------------------------------------+")
     
 
-# Print the list of available commands.
+# This function prints the list of available commands.
 def print_header() -> None:
     print()    
 
