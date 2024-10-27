@@ -71,6 +71,7 @@ def convert_hexadecimal_to_binary(number: str) -> str:
 # This function converts binary numbers to hexadecimal numbers.
 def convert_binary_to_hexadecimal(number: str) -> str:
     try:
+        # Convert the number using previous functions.
         result = convert_binary_to_decimal(number)
         result = convert_decimal_to_hexadecimal(str(result))
         return result
