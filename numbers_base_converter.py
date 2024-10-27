@@ -10,6 +10,9 @@ class OverflowError(Exception):
 class UnderflowError(Exception):
     ...
 
+class MantissaError(Exception):
+    ...
+
 def convert_decimal_to_binary(number):
     try:
         if number[0] == '-':
@@ -282,13 +285,27 @@ def get_to_IEEE754_inputs():
 def get_from_IEEE754_inputs():
     print_from_IEEE754_information()
 
+    lengths_allowed = {
+        5: 10,
+        8: 23,
+        11: 52,
+    }
+
     sign = input("Sign: ")
     if sign not in ['0', '1']:
         raise SignError
 
     exponent = input("Exponent: ")
-    if len(exponent) not in [5, 8, 11]:
-        raise ExponentError
+    exp_length = len(exponent)
+    if exp_length not in lengths_allowed:
+        raise PrecisionError
+    
+    mantissa = input("Mantissa: ")
+    mant_length = len(mantissa)
+    if mant_length > lengths_allowed[exp_length]:
+        raise MantissaError
+
+    return sign, exponent, mantissa
 
 
 def normalize_IEEE754_result(sign, exponent, mantissa, exp_length, mant_length, bias):
@@ -404,8 +421,28 @@ def convert_decimal_to_IEEE754(precision, number) -> str:
     return normalize_IEEE754_result(sign, exponent, mantissa, exp_digits, mant_digits, bias)
 
 
-def convert_IEEE754_to_decimal(number):
-    ...
+def convert_IEEE754_to_decimal(sign, exponent, mantissa):
+    if '1' not in exponent:
+        if '1' not in mantissa:
+            return '0'
+        
+        mantissa = '0' + mantissa
+    elif '0' not in exponent:
+        if '1' in mantissa:
+            return "-infinity" if int(sign) else "+infinity"
+        else:
+            return "NaN"
+    else:
+        mantissa = '1' + mantissa
+
+    exponent = int(exponent, 2) - (2 ** (len(exponent) - 1) - 1)
+    actual_value = 0
+    index = 0
+    for digit in mantissa:
+        actual_value += int(digit) * 2 ** (exponent - index)
+        index += 1
+    
+    return str(-actual_value) if int(sign) else str(actual_value)
 
 
 def print_to_IEEE754_information():
@@ -550,13 +587,14 @@ def convert():
                 result = convert_decimal_to_IEEE754(num, prec)
             case '16':
                 sign, exp, mant = get_from_IEEE754_inputs()
-                result = convert_IEEE754_to_decimal()
+                result = convert_IEEE754_to_decimal(sign, exp, mant)
             case _:
                 print("Mode not valid.")
                 return
-            
+
         if result != None:
             print("Result:", result)
+
     except ValueError:
         print("Number not compatible.")
     except PrecisionError:
@@ -565,7 +603,8 @@ def convert():
         print("Overflow error.")
     except UnderflowError:
         print("Underflow error.")
-
+    except MantissaError:
+        print("Mantissa not compatible.")
 
 
 if __name__ == "__main__":
