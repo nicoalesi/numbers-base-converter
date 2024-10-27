@@ -110,7 +110,7 @@ def convert_decimal_to_twos_complement(number: str) -> str:
 # This function converts two's complement numbers to decimal numbers.
 def convert_twos_complement_to_decimal(number: str) -> int:
     try:
-        #  If the number starts with '0b' shift every operation by two.
+        # If the number starts with '0b' shift every operation by two.
         # Note: '0b' is the binary numbers' prefix.
         if number[:2] == '0b':
             # If the first digit is neither '0' nor '1' raise an exception.
