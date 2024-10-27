@@ -1,6 +1,7 @@
 # This file contains all the printer functions used for displaying messages by
 # the main program.
 
+# Print information related to decimal-to-IEEE754 converter.
 def print_to_IEEE754_information():
     print()
 
@@ -18,6 +19,7 @@ def print_to_IEEE754_information():
     print("+----------------------------------------------------------------+")
 
 
+# Print information related to IEEE754-to-decimal converter.
 def print_from_IEEE754_information():
     print()
 
@@ -31,6 +33,7 @@ def print_from_IEEE754_information():
     print("+----------------------------------------------------------------+")
 
 
+# Print information about the project.
 def print_information():
     print()
 
@@ -40,12 +43,14 @@ def print_information():
     print("|   Nicolo Alesi                                                 |")
     print("|   Enes Ozdemir                                                 |")
     print("|   Federico Alcantara                                           |")
+    print("|   Davide Catucci                                               |")
     print("|                                                                |")
     print("|  License: MIT License                                          |")
     print("|                                                                |")
     print("+----------------------------------------------------------------+")
 
 
+# Print all available modes.
 def print_instructions():
     print()
 
@@ -75,6 +80,7 @@ def print_instructions():
     print("+----------------------------------------------------------------+")
     
 
+# Print the list of available commands.
 def print_header():
     print()    
 
