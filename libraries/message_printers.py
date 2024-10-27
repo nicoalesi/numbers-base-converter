@@ -2,7 +2,7 @@
 # the main program.
 
 # Print information related to decimal-to-IEEE754 converter.
-def print_to_IEEE754_information():
+def print_to_IEEE754_information() -> None:
     print()
 
     print("+------------------------ IEEE754 USAGE -------------------------+")
@@ -20,7 +20,7 @@ def print_to_IEEE754_information():
 
 
 # Print information related to IEEE754-to-decimal converter.
-def print_from_IEEE754_information():
+def print_from_IEEE754_information() -> None:
     print()
 
     print("+------------------------ IEEE754 USAGE -------------------------+")
@@ -34,7 +34,7 @@ def print_from_IEEE754_information():
 
 
 # Print information about the project.
-def print_information():
+def print_information() -> None:
     print()
 
     print("+------------------------- INFORMATION --------------------------+")
@@ -51,7 +51,7 @@ def print_information():
 
 
 # Print all available modes.
-def print_instructions():
+def print_instructions() -> None:
     print()
 
     print("+---------------------------- MODES -----------------------------+")
@@ -81,7 +81,7 @@ def print_instructions():
     
 
 # Print the list of available commands.
-def print_header():
+def print_header() -> None:
     print()    
 
     print("+----------------------- NUMBER CONVERTER -----------------------+")
