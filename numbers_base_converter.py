@@ -1,16 +1,19 @@
 from libraries.exceptions import *
-from libraries.unsigned_converters import *
-from libraries.signed_converters import *
 from libraries.fractional_converters import *
-from libraries.message_printers import *
-from libraries.IEEE754_utils import get_to_IEEE754_inputs
 from libraries.IEEE754_utils import get_from_IEEE754_inputs
+from libraries.IEEE754_utils import get_to_IEEE754_inputs
+from libraries.message_printers import *
+from libraries.signed_converters import *
+from libraries.unsigned_converters import *
 
 
-def convert():
+# This function takes care of the convertion process.
+def convert() -> None:
+    # Get the mode as input.
     conversion_mode = input("Convertion type: ")
 
     try:
+        # Perform the corresponding conversion.
         match conversion_mode:
             case '1':
                 num = input("Number to convert: ")
@@ -64,9 +67,10 @@ def convert():
                 print("Mode not valid.")
                 return
 
+        # If result has a value, print it.
         if result != None:
             print("Result:", result)
-
+    # If one exception is raised print the corresponding error message.
     except ValueError:
         print("Number not compatible.")
     except SignError:
@@ -80,13 +84,17 @@ def convert():
     except MantissaError:
         print("Mantissa not compatible.")
 
-
+# MAIN function.
 if __name__ == "__main__":
+    # Print header.
     print_header()
 
+    # Loop to catch commands.
     while True:
+        # Get the command as input.
         command = input("Command: ")
 
+        # Perform matching operations.
         match command:
             case "/convert":
                 print_instructions()
