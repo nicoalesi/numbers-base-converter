@@ -1,3 +1,5 @@
+# This file contains the main function.
+
 from libraries.exceptions import *
 from libraries.fractional_converters import *
 from libraries.IEEE754_utils import get_from_IEEE754_inputs
