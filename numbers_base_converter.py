@@ -3,6 +3,8 @@ from libraries.unsigned_converters import *
 from libraries.signed_converters import *
 from libraries.fractional_converters import *
 from libraries.message_printers import *
+from libraries.IEEE754_utils import get_to_IEEE754_inputs
+from libraries.IEEE754_utils import get_from_IEEE754_inputs
 
 
 def convert():
