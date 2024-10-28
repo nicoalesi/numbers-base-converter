@@ -8,7 +8,7 @@ from libraries.message_printers import print_to_IEEE754_information
 
 # This list defines all the exportable functions to other files.
 __all__ = [
-    "get_to_IEEE754_inputs"
+    "get_to_IEEE754_inputs",
     "get_from_IEEE754_inputs",
     "normalize_IEEE754_result",
     "round_IEEE754_mantissa"
