@@ -8,11 +8,25 @@ This project was born to help Computer Architecture students
 and ease the process of double-checking their results.
 
 ## Index
+ - [Usage](#usage)
  - [Number types](#number-types)
  - [Number bases](#number-bases)
  - [Conversions](#conversions)
 
 ----
+
+## Usage
+
+To use this program follow these steps:
+
+1. Download all the files from GitHub.
+2. Open the terminal.
+3. Move to the directory where the project is located.
+4. Make sure to have python installed on your computer.
+5. Run the main file ***numbers_base_converter.py*** using the following command:
+   
+   `python number_base_converter.py`
+
 
 ## Number types
 
