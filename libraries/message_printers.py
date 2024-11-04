@@ -86,7 +86,7 @@ def print_header() -> None:
 
     print("+----------------------- NUMBER CONVERTER -----------------------+")
     print("|                                                                |")
-    print("|  Use this program to convert numbers                           |")
+    print("|  Use this program to convert numbers.                          |")
     print("|                                                                |")
     print("|  Commands:                                                     |")
     print("|   /convert              - Start the converter                  |")
