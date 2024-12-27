@@ -154,7 +154,7 @@ def convert_twos_complement_to_decimal(number: str) -> int:
                 raise ValueError
 
             # Convert the number to integer cutting the sign.
-            result = int(number[1:], 2)
+            result = int(number, 2)
 
             # Return instantly the number if it is positive.
             if number[0] == '0':
