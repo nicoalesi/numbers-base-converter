@@ -178,7 +178,7 @@ def convert_decimal_to_IEEE754(precision: str, number: str) -> str:
         # Define boundaries.
         higher_bound = bias
         lower_bound = -bias + 1
-        lower_denormal_bound = -bias + 1 - mant_digits
+        lower_denormal_bound = -bias - mant_digits
 
         if integer_part == '0':
             # If there are no 1s in the fractional part the number is too small
@@ -220,11 +220,17 @@ def convert_decimal_to_IEEE754(precision: str, number: str) -> str:
 
         # The number is composed by both an integer part and fractional part.
         # The first digit is always one so to get the exponent it is necessary to
-        # shift until the second one, this means that the comma shifts of the 
+        # shift until the second digit, this means that the comma shifts of the 
         # length of the integer part minus one.
         exponent = len(integer_part) - 1
         start = 1
         mantissa = mantissa[start:start+mant_digits+1]
+
+        # If the number of digits of the mantissa is lower than required
+        # append zeros to the end until required length + 1.
+        # Necessary for correct rounding.
+        if len(mantissa) < mant_digits:
+            mantissa += "0"*(mant_digits-len(mantissa)+1)
 
         # Round the result.
         exponent, mantissa = round_IEEE754_mantissa(exponent, mantissa, mant_digits)

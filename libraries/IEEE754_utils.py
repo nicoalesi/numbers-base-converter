@@ -89,7 +89,7 @@ def normalize_IEEE754_result(sign, exponent, mantissa, \
 def round_IEEE754_mantissa(exponent, mantissa, length) -> tuple:
 
     # If the mantissa is composed by all 1s it becomes all 0s and the
-    # is incremented
+    # exponent is incremented
     if mantissa == '1' * (length+1):
         exponent += 1
         mantissa = '0' * length
